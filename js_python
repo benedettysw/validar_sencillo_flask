@@ -1,0 +1,16 @@
+@routes_validar.route('/login', methods=['POST'])
+def login():
+    usuario = request.json["Ndocumento"]
+    contraseña = request.json["contraseña"]
+    
+    print(usuario, contraseña)
+
+    verificacion = db.session.query(validar).filter(validar.correo == usuario, validar.contraseña == contraseña).first()
+    
+    print(verificacion)
+
+    if verificacion:
+        # Usuario encontrado, realizar acciones de inicio de sesión
+        return {"status": "Correcto"}
+    else:
+        return {"status": "Error", "message": "Usuario o contraseña incorrectos"}
